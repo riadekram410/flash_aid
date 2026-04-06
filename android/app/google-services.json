@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824994590074",
+    "project_id": "flash-aid",
+    "storage_bucket": "flash-aid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824994590074:android:7837033df5e3cdbe277ac3",
+        "android_client_info": {
+          "package_name": "com.example.flash_aid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT6WYTs42nPtER8eFe5jxmIInzkpaeJ90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
