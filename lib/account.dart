@@ -117,7 +117,7 @@ class AccountPage extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SignUpPage(),
+                        builder: (context) =>SignUpPage(),
                       ),
                     );
                   },
