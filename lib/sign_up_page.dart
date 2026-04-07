@@ -1,7 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatelessWidget {
+  SignUpPage({super.key});
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  void signUp(BuildContext context) async {
+    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Account Created")),
+      );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Sign Up Failed")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +56,6 @@ class SignUpPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 SizedBox(height: 50),
 
                 Text(
@@ -42,6 +82,7 @@ class SignUpPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: firstNameController,
                         decoration: InputDecoration(
                           hintText: "First Name",
                           filled: true,
@@ -58,6 +99,7 @@ class SignUpPage extends StatelessWidget {
 
                     Expanded(
                       child: TextField(
+                        controller: lastNameController,
                         decoration: InputDecoration(
                           hintText: "Last Name",
                           filled: true,
@@ -75,6 +117,7 @@ class SignUpPage extends StatelessWidget {
                 SizedBox(height: 20),
 
                 TextField(
+                  controller: userNameController,
                   decoration: InputDecoration(
                     hintText: "User Name",
                     filled: true,
@@ -89,6 +132,7 @@ class SignUpPage extends StatelessWidget {
                 SizedBox(height: 20),
 
                 TextField(
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "Email",
@@ -104,6 +148,7 @@ class SignUpPage extends StatelessWidget {
                 SizedBox(height: 20),
 
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: "Password",
@@ -119,6 +164,7 @@ class SignUpPage extends StatelessWidget {
                 SizedBox(height: 20),
 
                 TextField(
+                  controller: confirmPasswordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: "Confirm Password",
@@ -144,7 +190,9 @@ class SignUpPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      signUp(context);
+                    },
                     child: Text(
                       "Create Account",
                       style: TextStyle(
@@ -192,7 +240,6 @@ class SignUpPage extends StatelessWidget {
                 ),
 
                 SizedBox(height: 30),
-
               ],
             ),
           ),
