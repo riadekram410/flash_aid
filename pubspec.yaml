@@ -72,6 +72,8 @@ flutter:
     - assets/bkash.png
     - assets/handcash.png
     - assets/onlinebanking.png
+    - assets/bg.jpeg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

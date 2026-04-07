@@ -1,8 +1,57 @@
-import 'package:flash_aid/sign_up_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'sign_up_page.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void login(BuildContext context) async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login Successful")),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message = "Login Failed";
+
+      if (e.code == 'invalid-email') {
+        message = "Invalid email format";
+      } else if (e.code == 'user-not-found') {
+        message = "No user found with this email";
+      } else if (e.code == 'wrong-password') {
+        message = "Wrong password";
+      } else if (e.code == 'invalid-credential') {
+        message = "Invalid email or password";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,9 +61,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             SizedBox(height: 50),
-
             Text(
               "Hey,",
               style: TextStyle(
@@ -23,7 +70,6 @@ class LoginPage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-
             Text(
               "Welcome Back",
               style: TextStyle(
@@ -32,10 +78,9 @@ class LoginPage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-
             SizedBox(height: 45),
-
             TextField(
+              controller: emailController,
               decoration: InputDecoration(
                 hintText: "Email",
                 filled: true,
@@ -46,10 +91,9 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 18),
-
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 hintText: "Password",
@@ -61,9 +105,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 10),
-
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -74,9 +116,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 30),
-
             SizedBox(
               width: double.infinity,
               height: 54,
@@ -88,7 +128,9 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  login(context);
+                },
                 child: Text(
                   "Sign In",
                   style: TextStyle(
@@ -98,9 +140,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 22),
-
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +173,6 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             ),
-
           ],
         ),
       ),

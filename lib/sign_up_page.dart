@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_page.dart';
+import 'home_page.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
@@ -13,9 +14,19 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController confirmPasswordController = TextEditingController();
 
   void signUp(BuildContext context) async {
-    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+    if (emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Passwords do not match")),
+        const SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
+    if (passwordController.text.trim() !=
+        confirmPasswordController.text.trim()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
       );
       return;
     }
@@ -27,18 +38,32 @@ class SignUpPage extends StatelessWidget {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Account Created")),
+        const SnackBar(content: Text("Account Created")),
       );
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginPage(),
+          builder: (context) => HomePage(),
         ),
       );
     } on FirebaseAuthException catch (e) {
+      String message = "Sign Up Failed";
+
+      if (e.code == 'email-already-in-use') {
+        message = "Email already in use";
+      } else if (e.code == 'invalid-email') {
+        message = "Invalid email";
+      } else if (e.code == 'weak-password') {
+        message = "Password must be at least 6 characters";
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "Sign Up Failed")),
+        SnackBar(content: Text(message)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Something went wrong")),
       );
     }
   }
@@ -56,9 +81,9 @@ class SignUpPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
 
-                Text(
+                const Text(
                   "Create",
                   style: TextStyle(
                     fontSize: 26,
@@ -67,7 +92,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                Text(
+                const Text(
                   "Your Account",
                   style: TextStyle(
                     fontSize: 32,
@@ -76,7 +101,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 45),
+                const SizedBox(height: 45),
 
                 Row(
                   children: [
@@ -95,7 +120,7 @@ class SignUpPage extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
 
                     Expanded(
                       child: TextField(
@@ -114,7 +139,7 @@ class SignUpPage extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 TextField(
                   controller: userNameController,
@@ -129,7 +154,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 TextField(
                   controller: emailController,
@@ -145,7 +170,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 TextField(
                   controller: passwordController,
@@ -161,7 +186,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 TextField(
                   controller: confirmPasswordController,
@@ -177,7 +202,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
 
                 SizedBox(
                   width: double.infinity,
@@ -193,7 +218,7 @@ class SignUpPage extends StatelessWidget {
                     onPressed: () {
                       signUp(context);
                     },
-                    child: Text(
+                    child: const Text(
                       "Create Account",
                       style: TextStyle(
                         fontSize: 17,
@@ -203,13 +228,13 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 22),
+                const SizedBox(height: 22),
 
                 Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         "Already have an account? ",
                         style: TextStyle(
                           color: Colors.grey,
@@ -225,7 +250,7 @@ class SignUpPage extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           "Log In",
                           style: TextStyle(
                             color: Colors.black,
@@ -239,7 +264,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),
