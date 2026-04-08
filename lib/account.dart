@@ -1,4 +1,6 @@
+import 'package:flash_aid/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'About.dart';
 import 'Emergency.dart';
@@ -12,6 +14,9 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -45,18 +50,20 @@ class AccountPage extends StatelessWidget {
                       child: Icon(Icons.person, size: 30),
                     ),
                     const SizedBox(width: 15),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hasan Rahman",
-                          style: TextStyle(
+                          user?.displayName ??"Ayan Ahmed",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 4),
-                        Text("+880 1712 345678"),
+                        const SizedBox(height: 4),
+                        Text(
+                          user?.email ?? "No Email",
+                        ),
                       ],
                     ),
                   ],
@@ -113,11 +120,14 @@ class AccountPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+
+                    await FirebaseAuth.instance.signOut();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>SignUpPage(),
+                        builder: (context) => LoginPage(),
                       ),
                     );
                   },
@@ -165,4 +175,3 @@ class AccountPage extends StatelessWidget {
     );
   }
 }
-

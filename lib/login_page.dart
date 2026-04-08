@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      String message = "Login Failed";
+      String message ;
 
       if (e.code == 'invalid-email') {
         message = "Invalid email format";
@@ -44,6 +44,9 @@ class LoginPage extends StatelessWidget {
         message = "Wrong password";
       } else if (e.code == 'invalid-credential') {
         message = "Invalid email or password";
+      }
+      else{
+        message="Log In failed!";
       }
 
       ScaffoldMessenger.of(context).showSnackBar(

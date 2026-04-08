@@ -11,23 +11,27 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   void signUp(BuildContext context) async {
     if (emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
-        confirmPasswordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all fields")),
-      );
+        confirmPasswordController.text.isEmpty ||
+        userNameController.text.isEmpty ||
+        firstNameController.text.isEmpty ||
+        lastNameController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
       return;
     }
 
     if (passwordController.text.trim() !=
         confirmPasswordController.text.trim()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Passwords do not match")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Passwords do not match")));
       return;
     }
 
@@ -37,18 +41,16 @@ class SignUpPage extends StatelessWidget {
         password: passwordController.text.trim(),
       );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Account Created")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Account Created")));
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } on FirebaseAuthException catch (e) {
-      String message = "Sign Up Failed";
+      String message;
 
       if (e.code == 'email-already-in-use') {
         message = "Email already in use";
@@ -57,14 +59,17 @@ class SignUpPage extends StatelessWidget {
       } else if (e.code == 'weak-password') {
         message = "Password must be at least 6 characters";
       }
+      else{
+        message= "Sign Up Failed";
+      }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Something went wrong")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Something went wrong")));
     }
   }
 
@@ -236,10 +241,7 @@ class SignUpPage extends StatelessWidget {
                     children: [
                       const Text(
                         "Already have an account? ",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                       GestureDetector(
                         onTap: () {
