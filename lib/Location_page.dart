@@ -78,7 +78,10 @@ class _LocationPageState extends State<LocationPage> {
                   }
 
                 },
-                child: const Text("Confirm Hospital Location"),
+                child: const Text(
+                    "Confirm Hospital Location",
+                  style:TextStyle(color:Colors.black),
+                ),
               ),
             ),
 
