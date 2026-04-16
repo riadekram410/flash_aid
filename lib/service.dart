@@ -3,263 +3,237 @@ import 'package:flutter/material.dart';
 class ServicePage extends StatelessWidget {
   const ServicePage({super.key});
 
+  final List<Map<String, String>> services = const [
+    {
+      "title": "ICU Ambulance",
+      "subtitle": "Advanced life support",
+      "image": "assets/icu.png",
+    },
+    {
+      "title": "PTE Ambulance",
+      "subtitle": "AC & comfortable ride",
+      "image": "assets/advanced.png",
+    },
+    {
+      "title": "Air Ambulance",
+      "subtitle": "Emergency air transport",
+      "image": "assets/air.png",
+    },
+    {
+      "title": "Freezer Ambulance",
+      "subtitle": "Mortuary service",
+      "image": "assets/freezer.png",
+    },
+  ];
+
+  void _showMessage(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(msg)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
+
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 15),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.local_hospital,
-                      color: Colors.red,
-                      size: 28,
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      "FlashAid",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.red[50],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.call, color: Colors.red),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "Need an ambulance now? Call quickly.",
-                        ),
-                      ),
-                      Icon(Icons.arrow_forward_ios, size: 16),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  "Details",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              SizedBox(
-                height: 260,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    spotlightCard(
-                      context,
-                      "ICU Ambulance",
-                      "Ventilator, oxygen, monitor support",
-                      "assets/icu.png",
-                    ),
-                    spotlightCard(
-                      context,
-                      "PTE Ambulance",
-                      "Comfortable AC service",
-                      "assets/advanced.png",
-                    ),
-                    spotlightCard(
-                      context,
-                      "Air Ambulance",
-                      "Budget emergency ride",
-                      "assets/air.png",
-                    ),
-                    spotlightCard(
-                      context,
-                      "Freezer Ambulance",
-                      "Mortuary transportation",
-                      "assets/freezer.png",
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  "Features",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              SizedBox(
-                height: 150,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    exclusiveCard(
-                      "24/7 Available",
-                      "Call anytime day or night",
-                    ),
-                    exclusiveCard(
-                      "Fast Response",
-                      "Nearest ambulance assigned quickly",
-                    ),
-                    exclusiveCard(
-                      "Trained Staff",
-                      "Professional driver & helper",
-                    ),
-                    exclusiveCard(
-                      "Affordable Cost",
-                      "Different price options",
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget spotlightCard(
-      BuildContext context,
-      String title,
-      String subtitle,
-      String imagePath,
-      ) {
-    return GestureDetector(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("$title clicked")),
-        );
-      },
-      child: Container(
-        width: 230,
-        margin: const EdgeInsets.only(left: 16),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.red),
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            /// 🔴 TOP HEADER (MODERN)
             Container(
-              height: 140,
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.red[50],
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
                 ),
               ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Image.asset(
-                    imagePath,
-                    height: 100,
-                    width: double.infinity,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
-                    style: const TextStyle(
+                    "FlashAid",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54,
-                      height: 1.4,
-                    ),
+                    "Emergency Ambulance Service",
+                    style: TextStyle(color: Colors.white70),
                   ),
                 ],
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            /// 🚑 MAIN ACTION CARD
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.emergency,
+                        color: Colors.red, size: 40),
+                    const SizedBox(width: 15),
+                    const Expanded(
+                      child: Text(
+                        "Request Ambulance Now",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          _showMessage(context, "Request Sent"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        "Request",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            /// 🚑 SECTION TITLE
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Available Services",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            /// 🔥 GRID VIEW (MODERN LOOK)
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: services.length,
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 14,
+                  crossAxisSpacing: 14,
+                  childAspectRatio: 0.9,
+                ),
+                itemBuilder: (context, index) {
+                  final s = services[index];
+
+                  return GestureDetector(
+                    onTap: () => _showMessage(
+                        context, "${s["title"]} selected"),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 8,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.red[50],
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(
+                              s["image"]!,
+                              height: 40,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            s["title"]!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            s["subtitle"]!,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            /// 🚀 BOTTOM BUTTON
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () =>
+                      _showMessage(context, "Proceeding..."),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: const Text(
+                    "Continue",
+                    style: TextStyle(
+                        fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget exclusiveCard(String title, String subtitle) {
-    return Container(
-      width: 200,
-      margin: const EdgeInsets.only(left: 16),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.red),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.star, color: Colors.red),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            subtitle,
-            style: const TextStyle(color: Colors.black54),
-          ),
-        ],
       ),
     );
   }
